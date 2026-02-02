@@ -49,6 +49,10 @@ def __getattr__(name):
     Raises:
         PyTAExceptionIndicatorNotFound: If the indicator module or function is not found
     """
+
+    if name in ('__bases__', '__test__'):
+        return None
+
     # Skip special Python attributes (dunder attributes)
     if name.startswith('__') and name.endswith('__'):
         raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

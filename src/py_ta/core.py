@@ -85,6 +85,14 @@ class DataSeries(abc.ABC):
             raise PyTAExceptionBadParameterValue(f"Column '{key}' already exists")
         
         # Get data type for this column
+        # If column_types is None, skip type checking and conversion
+        if self._column_types is None:
+            # For IndicatorResult: just store the data as-is (should already be numpy array)
+            if not isinstance(data, np.ndarray):
+                raise PyTAExceptionBadParameterValue(f"Data must be numpy array when column_types is None, got {type(data).__name__}")
+            self._data[key] = data
+            return
+        
         if key not in self._column_types:
             raise PyTAExceptionBadParameterValue(f"Unknown column type for '{key}'")
         

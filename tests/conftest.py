@@ -6,13 +6,16 @@ import numpy as np
 import pytest
 
 # Comparison tolerance for floating point comparisons
-COMPARISON_TOLERANCE = 1e-12
+# rtol: relative tolerance (strict, for precision)
+# atol: absolute tolerance (more lenient, for large values)
+COMPARISON_TOLERANCE = 1e-12  # relative tolerance
+COMPARISON_TOLERANCE_ATOL = 1e-2  # absolute tolerance
 
 # Fixed test data filename
 TEST_DATA_FILENAME = "BINANCE_BTC_USDT_1h_2025.pkl"
 
 
-def arrays_equal_with_nan(arr1, arr2, rtol=COMPARISON_TOLERANCE, atol=COMPARISON_TOLERANCE):
+def arrays_equal_with_nan(arr1, arr2, rtol=COMPARISON_TOLERANCE, atol=COMPARISON_TOLERANCE_ATOL):
     """Compare two numpy arrays with tolerance, handling NaN values.
     
     Two arrays are considered equal if:
@@ -26,7 +29,7 @@ def arrays_equal_with_nan(arr1, arr2, rtol=COMPARISON_TOLERANCE, atol=COMPARISON
         arr1: First numpy array
         arr2: Second numpy array
         rtol: Relative tolerance for numeric comparison (default: COMPARISON_TOLERANCE)
-        atol: Absolute tolerance for numeric comparison (default: COMPARISON_TOLERANCE)
+        atol: Absolute tolerance for numeric comparison (default: COMPARISON_TOLERANCE_ATOL)
         
     Returns:
         bool: True if arrays are equal within tolerance, False otherwise

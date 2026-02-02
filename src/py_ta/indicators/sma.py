@@ -1,7 +1,8 @@
 """sma(quotes, period, value='close')
 Simple moving average."""
-import numpy as np
-from ..core import DataSeries
+from ..indicator_result import IndicatorResult
+from ..move_average import ma_calculate, MA_Type
+from ..exceptions import PyTAExceptionBadParameterValue
 
 
 def get_indicator_out(quotes, period, value='close'):
@@ -15,24 +16,36 @@ def get_indicator_out(quotes, period, value='close'):
         value: Price field to use - 'open', 'high', 'low', or 'close' (default: 'close')
         
     Returns:
-        DataSeries object with attribute:
+        IndicatorResult object with attribute:
             - sma: Simple moving average values
             
+    Raises:
+        PyTAExceptionBadParameterValue: If period <= 0 or value is not a valid price field
+        PyTAExceptionTooLittleData: If data length is less than period
+        
     Example:
         >>> sma_result = sma(quotes, period=20, value='close')
         >>> print(sma_result.sma)
     """
-    # TODO: Implementation will be added later
-    # For now, return a placeholder structure
+    # Validate period
+    if period <= 0:
+        raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
+    
+    # Validate value
+    valid_values = ['open', 'high', 'low', 'close']
+    if value not in valid_values:
+        raise PyTAExceptionBadParameterValue(f'value must be one of {valid_values}, got {value}')
     
     # Get source values from quotes
-    source_values = getattr(quotes, value)
-    length = len(source_values)
+    try:
+        source_values = getattr(quotes, value)
+    except AttributeError:
+        raise PyTAExceptionBadParameterValue(f'Quotes object does not have attribute "{value}"')
     
-    # Placeholder array (will be replaced with actual calculation)
-    sma_values = np.full(length, np.nan)
+    # Calculate SMA
+    sma_values = ma_calculate(source_values, period, MA_Type.sma)
     
-    return DataSeries({
+    return IndicatorResult({
         'sma': sma_values
     })
 

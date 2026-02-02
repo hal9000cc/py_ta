@@ -33,7 +33,7 @@ class MA_Type(Enum):
 def get_first_index_not_nan(values):
 
     for i, value in enumerate(values):
-        if not np.isnan(values[i]):
+        if not np.isnan(value):
             return i
 
     return len(values)
@@ -46,8 +46,7 @@ def ema_calculate(source_values, alpha, first_value=np.nan, start=0):
 
     if np.isnan(first_value):
         # skip first nans
-        for i, value in enumerate(source_values):
-            ema_value = source_values[i]
+        for i, ema_value in enumerate(source_values):
             if not np.isnan(ema_value):
                 start = i
                 break

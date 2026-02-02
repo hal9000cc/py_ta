@@ -1,6 +1,6 @@
 """ema(quotes, period, value='close')
 Exponential moving average."""
-from ..core import DataSeries
+from ..indicator_result import IndicatorResult
 from ..move_average import ma_calculate, MA_Type
 from ..exceptions import PyTAExceptionBadParameterValue
 
@@ -45,7 +45,7 @@ def get_indicator_out(quotes, period, value='close'):
     # Calculate EMA
     ema_values = ma_calculate(source_values, period, MA_Type.ema)
     
-    return DataSeries({
+    return IndicatorResult({
         'ema': ema_values
     })
 
