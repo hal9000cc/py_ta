@@ -37,17 +37,15 @@ def test_atr_vs_talib(test_ohlcv_data, smooth):
     quotes = ta.Quotes(open_data, high_data, low_data, close_data, volume_data)
     
     # Calculate with py-ta (using default ma_type='mma')
-    atr_result = ta.atr(quotes, smooth=smooth, ma_type='mma')
+    atr_result = ta.atr(quotes, smooth=smooth, ma_type='mmaw')
     
     # Calculate with TA-Lib
     # talib.ATR uses Wilder's smoothing (similar to MMA)
     talib_atr = talib.ATR(high_data, low_data, close_data, timeperiod=smooth)
     
     # Compare ATR results
-    py_ta_atr = np.asarray(atr_result.atr)
-    
     assert arrays_equal_with_nan(
-        py_ta_atr,
+        atr_result.atr,
         talib_atr
     ), f"ATR (smooth={smooth}) does not match TA-Lib"
 

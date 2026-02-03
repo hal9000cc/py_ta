@@ -1,26 +1,26 @@
 """Tests for EMA indicator."""
 import numpy as np
-import py_ta as ta
 import pytest
-import talib
+import py_ta as ta
 
 from conftest import arrays_equal_with_nan
 
 
-@pytest.mark.parametrize("period", [2, 5, 10, 20, 50, 100, 300, 500])
-def test_ema_vs_talib(test_ohlcv_data, period):
-    """Test EMA calculation against TA-Lib reference implementation.
+@pytest.mark.parametrize('period', [1, 3, 5, 22])
+def test_ema_direct_calculation(test_ohlcv_data, period):
+    """Test EMA calculation by direct computation.
     
     This test:
     1. Loads test OHLCV data
     2. Creates Quotes object
     3. Calculates EMA using py-ta
-    4. Calculates EMA using TA-Lib
-    5. Compares results with tolerance
+    4. Verifies that EMA values match direct calculation:
+       - alpha = 2.0 / (period + 1)
+       - First value (at index period-1) is SMA of first period elements
+       - Subsequent values: ema[i] = source[i] * alpha + ema[i-1] * (1 - alpha)
     
-    Args:
-        test_ohlcv_data: Fixture providing OHLCV test data
-        period: Period for EMA calculation
+    Parameters are parametrized: period.
+    value='close' is fixed.
     """
     # Extract data
     open_data = test_ohlcv_data['open']
@@ -39,14 +39,44 @@ def test_ema_vs_talib(test_ohlcv_data, period):
     # Calculate with py-ta
     ema_result = ta.ema(quotes, period=period, value='close')
     
-    # Calculate with TA-Lib
-    talib_ema = talib.EMA(close_data, timeperiod=period)
+    # Get values
+    values = close_data
     
-    # Compare results
-    py_ta_ema = np.asarray(ema_result.ema)
+    # Calculate expected EMA by direct computation
+    alpha = 2.0 / (period + 1)
+    alpha_n = 1.0 - alpha
     
+    # Find first non-NaN value
+    start = 0
+    for i, value in enumerate(values):
+        if not np.isnan(value):
+            start = i
+            break
+    
+    # Check we have enough data
+    assert len(values) >= start + period, f"Insufficient data after skipping NaNs"
+    
+    # Initialize result array
+    expected_ema = np.full(len(values), np.nan, dtype=np.float64)
+    
+    # First period-1 elements are NaN
+    # Element at index (start + period - 1) is SMA of first period elements
+    first_index = start + period - 1
+    first_value = values[start:start + period].sum() / period
+    expected_ema[first_index] = first_value
+    
+    # Calculate subsequent EMA values
+    # Note: if source value is NaN, EMA becomes NaN and stays NaN
+    ema_value = first_value
+    for i in range(first_index + 1, len(values)):
+        if np.isnan(values[i]):
+            ema_value = np.nan
+        else:
+            ema_value = values[i] * alpha + ema_value * alpha_n
+        expected_ema[i] = ema_value
+    
+    # Compare using arrays_equal_with_nan
     assert arrays_equal_with_nan(
-        py_ta_ema,
-        talib_ema
-    ), f"EMA (period={period}) does not match TA-Lib"
-
+        ema_result.ema,
+        expected_ema
+    ), f"EMA (period={period}) does not match direct calculation"

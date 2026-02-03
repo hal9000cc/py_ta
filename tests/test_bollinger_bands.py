@@ -57,26 +57,21 @@ def test_bollinger_bands_vs_talib(test_ohlcv_data, period, deviation):
     )
     
     # Compare results
-    # Convert to numpy arrays if needed
-    py_ta_mid = np.asarray(bb.mid_line)
-    py_ta_upper = np.asarray(bb.up_line)
-    py_ta_lower = np.asarray(bb.down_line)
-    
     # Compare middle line
     assert arrays_equal_with_nan(
-        py_ta_mid,
+        bb.mid_line,
         talib_middle
     ), f"Middle line (SMA, period={period}, deviation={deviation}) does not match TA-Lib"
     
     # Compare upper band
     assert arrays_equal_with_nan(
-        py_ta_upper,
+        bb.up_line,
         talib_upper
     ), f"Upper band (period={period}, deviation={deviation}) does not match TA-Lib"
     
     # Compare lower band
     assert arrays_equal_with_nan(
-        py_ta_lower,
+        bb.down_line,
         talib_lower
     ), f"Lower band (period={period}, deviation={deviation}) does not match TA-Lib"
 

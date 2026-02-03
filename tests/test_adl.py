@@ -44,10 +44,8 @@ def test_adl_vs_talib(test_ohlcv_data, ma_period):
     talib_ad = talib.AD(high_data, low_data, close_data, volume_data)
     
     # Compare ADL results
-    py_ta_adl = np.asarray(adl_result.adl)
-    
     assert arrays_equal_with_nan(
-        py_ta_adl,
+        adl_result.adl,
         talib_ad
     ), f"ADL (ma_period=None) does not match TA-Lib"
 

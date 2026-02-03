@@ -45,10 +45,8 @@ def test_rsi_vs_talib(test_ohlcv_data, period):
     talib_rsi = talib.RSI(close_data, timeperiod=period)
     
     # Compare RSI results
-    py_ta_rsi = np.asarray(rsi_result.rsi)
-    
     assert arrays_equal_with_nan(
-        py_ta_rsi,
+        rsi_result.rsi,
         talib_rsi
     ), f"RSI (period={period}) does not match TA-Lib"
 

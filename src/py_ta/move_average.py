@@ -11,20 +11,26 @@ class MA_Type(Enum):
     mma = 3
     ema0 = 4
     mma0 = 5
+    ema_warmup = 6
+    mma_warmup = 7
 
     @staticmethod
     def cast(str_value):
 
-        if str_value == 'ema':
+        if str_value == 'ema':  # Classic EMA with initialization via SMA (alpha = 2.0 / (period + 1))
             return MA_Type.ema
-        if str_value == 'sma':
+        if str_value == 'sma':  # Classic SMA with initialization via SMA
             return MA_Type.sma
-        if str_value == 'mma':
+        if str_value == 'mma':  # Modified EMA with initialization via SMA (alpha = 1.0 / period)
             return MA_Type.mma
-        if str_value == 'ema0':
+        if str_value == 'ema0':  # Classic EMA with initialization via first data element
             return MA_Type.ema0
-        if str_value == 'mma0':
+        if str_value == 'mma0':  # Modified EMA with initialization via first data element (alpha = 1.0 / period)
             return MA_Type.mma0
+        if str_value == 'emaw':  # EMA with dynamic-alpha warm-up (TA-Lib compatible)
+            return MA_Type.ema_warmup
+        if str_value == 'mmaw':  # MMA (SMMA) with dynamic-alpha warm-up (TA-Lib compatible)
+            return MA_Type.mma_warmup
 
         raise ValueError(f'Unknown move average type: {str_value}')
 
@@ -95,6 +101,37 @@ def iema_calculate(source_values, period, alpha):
     return ema_calculate(source_values, alpha, first_value, start + period - 1)
 
 
+@njit(cache=True)
+def ema_warmup_init(source_values, period, start):
+
+    init_ema = source_values[start]
+
+    for i in range(1, period):
+        k = 1.0 / (i + 1)
+        init_ema = source_values[start + i] * k + init_ema * (1.0 - k)
+
+    return init_ema
+
+
+def ema_warmup_calculate(source_values, period, alpha):
+
+    start = get_first_index_not_nan(source_values)
+    if start >= len(source_values):
+        result = np.empty_like(source_values)
+        result[:] = np.nan
+        return result
+
+    data_len = len(source_values)
+    if data_len < start + period:
+        raise PyTAExceptionTooLittleData(f'data length {data_len} < {start + period}')
+
+    prev_ema = ema_warmup_init(source_values, period, start)
+
+    result = ema_calculate(source_values, alpha, prev_ema, start + period - 1)
+
+    return result
+
+
 def ma_calculate(source_values, period, ma_type):
 
     if ma_type == MA_Type.sma:
@@ -111,5 +148,11 @@ def ma_calculate(source_values, period, ma_type):
     if ma_type == MA_Type.mma:
         alpha = 1.0 / period
         return iema_calculate(source_values, period, alpha)
+    if ma_type == MA_Type.ema_warmup:
+        alpha = 2.0 / (period + 1)
+        return ema_warmup_calculate(source_values, period, alpha)
+    if ma_type == MA_Type.mma_warmup:
+        alpha = 1.0 / period
+        return ema_warmup_calculate(source_values, period, alpha)
 
     raise ValueError(f'Bad ma_type value: {ma_type}')
