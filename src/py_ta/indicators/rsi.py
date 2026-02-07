@@ -61,25 +61,20 @@ def get_indicator_out(quotes, period, ma_type='mma', value='close'):
         >>> rsi_result = rsi(quotes, period=14, ma_type='mma', value='close')
         >>> print(rsi_result.rsi)
     """
-    # Validate period
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     
-    # Validate value
     valid_values = ['open', 'high', 'low', 'close']
     if value not in valid_values:
         raise PyTAExceptionBadParameterValue(f'value must be one of {valid_values}, got {value}')
     
-    # Convert ma_type string to MA_Type enum (will raise ValueError if invalid)
     try:
         ma_type_enum = MA_Type.cast(ma_type)
     except ValueError as e:
         raise PyTAExceptionBadParameterValue(str(e))
     
-    # Get source values from quotes
     source_values = quotes[value]
     
-    # Handle empty array
     if len(source_values) == 0:
         out = np.zeros(0, dtype=PRICE_TYPE)
     else:

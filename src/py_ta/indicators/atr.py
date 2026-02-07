@@ -35,44 +35,34 @@ def get_indicator_out(quotes, smooth=14, ma_type='mma'):
         >>> print(atr_result.tr)
         >>> print(atr_result.atrp)
     """
-    # Validate smooth
     if smooth <= 0:
         raise PyTAExceptionBadParameterValue(f'smooth must be greater than 0, got {smooth}')
     
-    # Convert ma_type string to MA_Type enum (will raise ValueError if invalid)
     try:
         ma_type_enum = MA_Type.cast(ma_type)
     except ValueError as e:
         raise PyTAExceptionBadParameterValue(str(e))
     
-    # Get OHLC data from quotes
     high = quotes.high
     low = quotes.low
     close = quotes.close
     
-    # Calculate True Range components
-    # range_current = high - low
     range_current = high - low
     
-    # range_prev_high = [0] + abs(close[:-1] - high[1:])
     range_prev_high = np.hstack((
         np.zeros(1, dtype=PRICE_TYPE),
         np.abs(close[:-1] - high[1:])
     ))
     
-    # range_prev_low = [0] + abs(close[:-1] - low[1:])
     range_prev_low = np.hstack((
         np.zeros(1, dtype=PRICE_TYPE),
         np.abs(close[:-1] - low[1:])
     ))
     
-    # True Range = max(range_current, range_prev_high, range_prev_low)
     tr = np.maximum(range_current, np.maximum(range_prev_high, range_prev_low))
     
-    # Calculate ATR (moving average of TR)
     atr = ma_calculate(tr, smooth, ma_type_enum)
     
-    # Calculate ATRP (ATR as percentage of close)
     atrp = atr / close * 100
     
     return IndicatorResult({

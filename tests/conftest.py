@@ -1,9 +1,21 @@
 """Pytest configuration and shared fixtures for py-ta tests."""
+import os
 import pickle
 from pathlib import Path
 
 import numpy as np
 import pytest
+
+
+def pytest_configure(config):
+    """Configure pytest environment variables for stock-indicators."""
+    dotnet_root = os.path.expanduser("~/.dotnet")
+    if os.path.exists(dotnet_root):
+        os.environ["DOTNET_ROOT"] = dotnet_root
+        if "PATH" in os.environ:
+            os.environ["PATH"] = f"{dotnet_root}:{os.environ['PATH']}"
+        else:
+            os.environ["PATH"] = dotnet_root
 
 # Comparison tolerance for floating point comparisons
 # rtol: relative tolerance (strict, for precision)

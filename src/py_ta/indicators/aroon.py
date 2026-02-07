@@ -64,20 +64,16 @@ def get_indicator_out(quotes, period=14):
         >>> print(aroon_result.down)
         >>> print(aroon_result.oscillator)
     """
-    # Validate period
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     
-    # Get OHLC data from quotes
     high = quotes.high
     low = quotes.low
     
-    # Check minimum data requirement
     data_len = len(high)
     if data_len < period:
         raise PyTAExceptionTooLittleData(f'data length {data_len} < {period}')
     
-    # Calculate Aroon
     up, down, oscillator = calc_aroon(high, low, period)
     
     return IndicatorResult({

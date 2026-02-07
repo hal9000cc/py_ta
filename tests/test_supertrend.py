@@ -26,13 +26,10 @@ def test_supertrend_basic(test_ohlcv_data):
     close_data = test_ohlcv_data['close']
     volume_data = test_ohlcv_data['volume']
     
-    # Create Quotes
     quotes = ta.Quotes(open_data, high_data, low_data, close_data, volume_data)
     
-    # Calculate Supertrend
     supertrend_result = ta.supertrend(quotes, period=10, multipler=3, ma_type='mma')
     
-    # Basic check: result should have supertrend and supertrend_mid attributes
     assert hasattr(supertrend_result, 'supertrend'), "Result should have 'supertrend' attribute"
     assert hasattr(supertrend_result, 'supertrend_mid'), "Result should have 'supertrend_mid' attribute"
     assert len(supertrend_result.supertrend) == len(close_data), "supertrend should have same length as input data"

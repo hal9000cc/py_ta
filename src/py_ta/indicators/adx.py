@@ -37,39 +37,30 @@ def get_indicator_out(quotes, period=14, smooth=14, ma_type='mma'):
         >>> print(adx_result.p_di)
         >>> print(adx_result.m_di)
     """
-    # Validate period
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     
-    # Validate smooth
     if smooth <= 0:
         raise PyTAExceptionBadParameterValue(f'smooth must be greater than 0, got {smooth}')
     
-    # Convert ma_type string to MA_Type enum (will raise ValueError if invalid)
     try:
         ma_type_enum = MA_Type.cast(ma_type)
     except ValueError as e:
         raise PyTAExceptionBadParameterValue(str(e))
     
-    # Get OHLC data from quotes
     high = quotes.high
     low = quotes.low
     
-    # Check minimum data requirement
     data_len = len(high)
     if data_len < period:
         raise PyTAExceptionTooLittleData(f'data length {data_len} < {period}')
     
     # Calculate Directional Movement
-    # Positive DM: difference in highs
     p_dm = np.hstack([np.nan, np.diff(high)])
-    # Negative DM: negative difference in lows
     m_dm = np.hstack([np.nan, -np.diff(low)])
     
     # Zero out DM when conditions are not met
-    # Zero p_dm if p_dm <= m_dm or p_dm < 0
     bx_zero_p_dm = (p_dm <= m_dm) | (p_dm < 0)
-    # Zero m_dm if m_dm <= p_dm or m_dm < 0
     bx_zero_m_dm = (m_dm <= p_dm) | (m_dm < 0)
     p_dm[bx_zero_p_dm] = 0
     m_dm[bx_zero_m_dm] = 0
@@ -79,15 +70,12 @@ def get_indicator_out(quotes, period=14, smooth=14, ma_type='mma'):
     atr_values = atr_result.atr
     
     # Calculate Directional Indicators (DI)
-    # DI = 100 * (smoothed DM) / ATR
     p_di = 100 * ma_calculate(p_dm, period, ma_type_enum) / atr_values
     m_di = 100 * ma_calculate(m_dm, period, ma_type_enum) / atr_values
     
     # Calculate Directional Index (DX)
-    # DX = 100 * abs(p_di - m_di) / (p_di + m_di)
     np.seterr(divide='ignore', invalid='ignore')
     dxi = 100 * np.abs(p_di - m_di) / (p_di + m_di)
-    # Handle division by zero
     dxi[p_di + m_di == 0] = 0
     
     # Calculate ADX (smoothed DX)

@@ -64,7 +64,6 @@ def get_indicator_out(quotes, period=5, period_d=3, smooth=3, ma_type='sma'):
         >>> print(stoch_result.value_k)
         >>> print(stoch_result.value_d)
     """
-    # Validate periods
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     if period_d <= 0:
@@ -72,29 +71,23 @@ def get_indicator_out(quotes, period=5, period_d=3, smooth=3, ma_type='sma'):
     if smooth <= 0:
         raise PyTAExceptionBadParameterValue(f'smooth must be greater than 0, got {smooth}')
     
-    # Convert ma_type string to MA_Type enum (will raise ValueError if invalid)
     try:
         ma_type_enum = MA_Type.cast(ma_type)
     except ValueError as e:
         raise PyTAExceptionBadParameterValue(str(e))
     
-    # Get OHLC data from quotes
     high = quotes.high
     low = quotes.low
     close = quotes.close
     
-    # Check minimum data requirement
     data_len = len(close)
     if data_len < period:
         raise PyTAExceptionTooLittleData(f'data length {data_len} < {period}')
     
-    # Calculate raw %K (oscillator)
     oscillator = calc_k(high, low, close, period)
     
-    # Smooth %K to get value_k
     value_k = ma_calculate(oscillator, smooth, ma_type_enum)
     
-    # Calculate %D (moving average of %K)
     value_d = ma_calculate(value_k, period_d, ma_type_enum)
     
     return IndicatorResult({

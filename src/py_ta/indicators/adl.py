@@ -4,7 +4,7 @@ import numpy as np
 
 from ..indicator_result import IndicatorResult
 from ..move_average import ma_calculate, MA_Type
-from ..exceptions import PyTAExceptionBadParameterValue, PyTAExceptionDataSeriesNonFound
+from ..exceptions import PyTAExceptionBadParameterValue
 
 
 def get_indicator_out(quotes, ma_period=None, ma_type='sma'):
@@ -48,34 +48,23 @@ def get_indicator_out(quotes, ma_period=None, ma_type='sma'):
         except ValueError as e:
             raise PyTAExceptionBadParameterValue(str(e))
     
-    # Get OHLCV data from quotes
     high = quotes.high
     low = quotes.low
     close = quotes.close
     volume = quotes['volume']
     
-    # Suppress invalid division warnings (we handle division by zero explicitly)
     np.seterr(invalid='ignore')
     
-    # Calculate High-Low range
     hl_range = high - low
     
-    # Calculate Close Location Value (CLV)
-    # CLV = ((Close - Low) - (High - Close)) / (High - Low)
     clv = ((close - low) - (high - close)) / hl_range
-    
-    # Handle division by zero (when high == low)
     clv[hl_range == 0] = 0
-    
-    # Calculate ADL (cumulative sum of CLV * Volume)
     adl = np.cumsum(clv * volume)
     
-    # Build result dictionary
     result_data = {
         'adl': adl
     }
     
-    # Add smoothed ADL if ma_period is provided
     if ma_period is not None:
         result_data['adl_smooth'] = ma_calculate(adl, ma_period, ma_type_enum)
     

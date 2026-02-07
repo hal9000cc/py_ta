@@ -86,35 +86,28 @@ def get_indicator_out(quotes, period=10, multipler=3, ma_type='mma'):
         >>> print(supertrend_result.supertrend)
         >>> print(supertrend_result.supertrend_mid)
     """
-    # Validate period
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     
-    # Validate multiplier (note: parameter name is 'multipler' as in original code)
     if multipler <= 0:
         raise PyTAExceptionBadParameterValue(f'multipler must be greater than 0, got {multipler}')
     
-    # Convert ma_type string to MA_Type enum (will raise ValueError if invalid)
     try:
         ma_type_enum = MA_Type.cast(ma_type)
     except ValueError as e:
         raise PyTAExceptionBadParameterValue(str(e))
     
-    # Get OHLC data from quotes
     high = quotes.high
     low = quotes.low
     close = quotes.close
     
-    # Check minimum data requirement
     data_len = len(close)
     if data_len < period:
         raise PyTAExceptionTooLittleData(f'data length {data_len} < {period}')
     
-    # Calculate ATR
     atr_result = atr.get_indicator_out(quotes, smooth=period, ma_type=ma_type)
     atr_values = atr_result.atr
     
-    # Calculate Supertrend
     supertrend, supertrend_mid = calc_supertrend(close, high, low, atr_values, multipler, period)
     
     return IndicatorResult({

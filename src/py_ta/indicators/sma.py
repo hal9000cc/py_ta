@@ -28,19 +28,15 @@ def get_indicator_out(quotes, period, value='close'):
         >>> sma_result = sma(quotes, period=20, value='close')
         >>> print(sma_result.sma)
     """
-    # Validate period
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     
-    # Validate value
     valid_values = ['open', 'high', 'low', 'close']
     if value not in valid_values:
         raise PyTAExceptionBadParameterValue(f'value must be one of {valid_values}, got {value}')
     
-    # Get source values from quotes
     source_values = quotes[value]
     
-    # Calculate SMA
     sma_values = ma_calculate(source_values, period, MA_Type.sma)
     
     return IndicatorResult({
