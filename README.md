@@ -1,4 +1,4 @@
-# pyita
+# pyita v1.0.10
 
 ![PyPI - Version](https://img.shields.io/pypi/v/pyita)
 ![PyPI - License](https://img.shields.io/pypi/l/pyita)
