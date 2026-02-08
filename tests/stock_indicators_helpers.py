@@ -89,9 +89,20 @@ def get_si_ref(quotes_filename, si_func_name, *args):
     return IndicatorResult(data_dict)
 
 
+def _format_arg_for_filename(arg):
+    """Format argument for use in cache filename.
+    
+    For enums, uses .name attribute for readability.
+    For other types, uses str() representation.
+    """
+    if hasattr(arg, 'name') and isinstance(arg.name, str):
+        return arg.name
+    return str(arg)
+
+
 def _build_cache_path(quotes_filename, si_func_name, args):
     quotes_base = quotes_filename.replace('.pkl', '')
-    params_suffix = '-' + ','.join(str(a) for a in args) if args else ''
+    params_suffix = '-' + ','.join(_format_arg_for_filename(a) for a in args) if args else ''
     cache_name = f'si_ref-{si_func_name}-{quotes_base}{params_suffix}.pkl'
     return TEST_DATA_DIR / cache_name
 

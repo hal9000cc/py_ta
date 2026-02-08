@@ -2,37 +2,31 @@
 import pytest
 import py_ta as ta
 
-from conftest import test_ohlcv_data
+from conftest import TEST_DATA_FILENAME, arrays_equal_with_nan
+from stock_indicators_helpers import get_si_ref
 
 
-def test_awesome_not_implemented(test_ohlcv_data):
-    """Test for Awesome Oscillator is not implemented yet.
-    
-    Awesome Oscillator is not available in TA-Lib for comparison,
-    so this test is not implemented.
-    """
-    pytest.skip("Awesome Oscillator test is not implemented: TA-Lib does not have this indicator")
+@pytest.mark.parametrize('period_fast, period_slow', [
+    (2, 5),
+    (3, 7),
+    (15, 20),
+    (12, 20),
+])
+def test_awesome_vs_si(test_ohlcv_data, period_fast, period_slow):
+    """Test Awesome Oscillator calculation against stock-indicators reference."""
+    quotes = ta.Quotes(
+        test_ohlcv_data['open'],
+        test_ohlcv_data['high'],
+        test_ohlcv_data['low'],
+        test_ohlcv_data['close'],
+        test_ohlcv_data['volume'],
+        test_ohlcv_data['time'],
+    )
 
+    awesome_result = ta.awesome(quotes, period_fast=period_fast, period_slow=period_slow, normalized=False)
 
-def test_awesome_basic(test_ohlcv_data):
-    """Basic test for Awesome Oscillator (placeholder).
-    
-    This test verifies that the indicator can be called without errors.
-    """
-    # Extract data
-    open_data = test_ohlcv_data['open']
-    high_data = test_ohlcv_data['high']
-    low_data = test_ohlcv_data['low']
-    close_data = test_ohlcv_data['close']
-    volume_data = test_ohlcv_data['volume']
-    
-    # Create Quotes
-    quotes = ta.Quotes(open_data, high_data, low_data, close_data, volume_data)
-    
-    # Calculate Awesome Oscillator
-    awesome_result = ta.awesome(quotes, period_fast=5, period_slow=34)
-    
-    # Basic check: result should have awesome attribute
-    assert hasattr(awesome_result, 'awesome'), "Result should have 'awesome' attribute"
-    assert len(awesome_result.awesome) == len(close_data), "Awesome should have same length as input data"
+    ref = get_si_ref(TEST_DATA_FILENAME, 'get_awesome', period_fast, period_slow)
 
+    assert arrays_equal_with_nan(
+        awesome_result.awesome, ref.oscillator
+    ), f"Awesome Oscillator (period_fast={period_fast}, period_slow={period_slow}) does not match stock-indicators"

@@ -2,41 +2,60 @@
 import pytest
 import py_ta as ta
 
-from conftest import test_ohlcv_data
+from conftest import TEST_DATA_FILENAME, arrays_equal_with_nan
+from stock_indicators_helpers import get_si_ref
 
 
-def test_ichimoku_not_implemented(test_ohlcv_data):
-    """Test for Ichimoku is not implemented yet.
-    
-    Ichimoku is not available in TA-Lib for comparison,
-    so this test is not implemented.
-    """
-    pytest.skip("Ichimoku test is not implemented: TA-Lib does not have this indicator")
+@pytest.mark.parametrize('period_short, period_mid, period_long, offset_senkou, offset_chikou', [
+    (9, 26, 52, 26, 26),
+    (9, 26, 52, 25, 27),
+])
+def test_ichimoku_vs_si(test_ohlcv_data, period_short, period_mid, period_long, offset_senkou, offset_chikou):
+    """Test Ichimoku calculation against stock-indicators reference."""
+    quotes = ta.Quotes(
+        test_ohlcv_data['open'],
+        test_ohlcv_data['high'],
+        test_ohlcv_data['low'],
+        test_ohlcv_data['close'],
+        test_ohlcv_data['volume'],
+        test_ohlcv_data['time'],
+    )
 
+    ichimoku_result = ta.ichimoku(
+        quotes,
+        period_short=period_short,
+        period_mid=period_mid,
+        period_long=period_long,
+        offset_senkou=offset_senkou,
+        offset_chikou=offset_chikou
+    )
 
-def test_ichimoku_basic(test_ohlcv_data):
-    """Basic test for Ichimoku (placeholder).
-    
-    This test verifies that the indicator can be called without errors.
-    """
-    # Extract data
-    open_data = test_ohlcv_data['open']
-    high_data = test_ohlcv_data['high']
-    low_data = test_ohlcv_data['low']
-    close_data = test_ohlcv_data['close']
-    volume_data = test_ohlcv_data['volume']
-    
-    # Create Quotes
-    quotes = ta.Quotes(open_data, high_data, low_data, close_data, volume_data)
-    
-    # Calculate Ichimoku
-    ichimoku_result = ta.ichimoku(quotes, period_short=9, period_mid=26, period_long=52, offset_senkou=26, offset_chikou=26)
-    
-    # Basic check: result should have all required attributes
-    assert hasattr(ichimoku_result, 'tenkan'), "Result should have 'tenkan' attribute"
-    assert hasattr(ichimoku_result, 'kijun'), "Result should have 'kijun' attribute"
-    assert hasattr(ichimoku_result, 'senkou_a'), "Result should have 'senkou_a' attribute"
-    assert hasattr(ichimoku_result, 'senkou_b'), "Result should have 'senkou_b' attribute"
-    assert hasattr(ichimoku_result, 'chikou'), "Result should have 'chikou' attribute"
-    assert len(ichimoku_result.tenkan) == len(close_data), "tenkan should have same length as input data"
+    ref = get_si_ref(
+        TEST_DATA_FILENAME,
+        'get_ichimoku',
+        period_short,
+        period_mid,
+        period_long,
+        offset_senkou,
+        offset_chikou
+    )
 
+    assert arrays_equal_with_nan(
+        ichimoku_result.tenkan, ref.tenkan_sen
+    ), f"Ichimoku Tenkan (period_short={period_short}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        ichimoku_result.kijun, ref.kijun_sen
+    ), f"Ichimoku Kijun (period_mid={period_mid}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        ichimoku_result.senkou_a, ref.senkou_span_a
+    ), f"Ichimoku Senkou A (offset_senkou={offset_senkou}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        ichimoku_result.senkou_b, ref.senkou_span_b
+    ), f"Ichimoku Senkou B (period_long={period_long}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        ichimoku_result.chikou, ref.chikou_span
+    ), f"Ichimoku Chikou (offset_chikou={offset_chikou}) does not match stock-indicators"

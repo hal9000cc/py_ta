@@ -2,36 +2,26 @@
 import pytest
 import py_ta as ta
 
-from conftest import test_ohlcv_data
+from conftest import TEST_DATA_FILENAME, arrays_equal_with_nan
+from stock_indicators_helpers import get_si_ref
 
 
-def test_supertrend_not_implemented(test_ohlcv_data):
-    """Test for Supertrend is not implemented yet.
-    
-    Supertrend is not available in TA-Lib for comparison,
-    so this test is not implemented.
-    """
-    pytest.skip("Supertrend test is not implemented: TA-Lib does not have this indicator")
+@pytest.mark.parametrize('period', [2, 20])
+def test_supertrend_vs_si(test_ohlcv_data, period):
+    """Test Supertrend calculation against stock-indicators reference."""
+    quotes = ta.Quotes(
+        test_ohlcv_data['open'],
+        test_ohlcv_data['high'],
+        test_ohlcv_data['low'],
+        test_ohlcv_data['close'],
+        test_ohlcv_data['volume'],
+        test_ohlcv_data['time'],
+    )
 
+    supertrend_result = ta.supertrend(quotes, period=period, multipler=3, ma_type='mma')
 
-def test_supertrend_basic(test_ohlcv_data):
-    """Basic test for Supertrend (placeholder).
-    
-    This test verifies that the indicator can be called without errors.
-    """
-    # Extract data
-    open_data = test_ohlcv_data['open']
-    high_data = test_ohlcv_data['high']
-    low_data = test_ohlcv_data['low']
-    close_data = test_ohlcv_data['close']
-    volume_data = test_ohlcv_data['volume']
-    
-    quotes = ta.Quotes(open_data, high_data, low_data, close_data, volume_data)
-    
-    supertrend_result = ta.supertrend(quotes, period=10, multipler=3, ma_type='mma')
-    
-    assert hasattr(supertrend_result, 'supertrend'), "Result should have 'supertrend' attribute"
-    assert hasattr(supertrend_result, 'supertrend_mid'), "Result should have 'supertrend_mid' attribute"
-    assert len(supertrend_result.supertrend) == len(close_data), "supertrend should have same length as input data"
-    assert len(supertrend_result.supertrend_mid) == len(close_data), "supertrend_mid should have same length as input data"
+    ref = get_si_ref(TEST_DATA_FILENAME, 'get_super_trend', period, 3)
 
+    assert arrays_equal_with_nan(
+        supertrend_result.supertrend[200:], ref.super_trend[200:]
+    ), f"Supertrend (period={period}) does not match stock-indicators"

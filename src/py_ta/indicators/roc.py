@@ -57,7 +57,7 @@ def get_indicator_out(quotes, period=14, ma_period=14, ma_type='sma', value='clo
     if data_len < period:
         raise PyTAExceptionTooLittleData(f'data length {data_len} < {period}')
     
-    roc = (source_values[period:] - source_values[:-period]) / source_values[:-period]
+    roc = (source_values[period:] - source_values[:-period]) / source_values[:-period] * 100
     
     np.seterr(divide='ignore', invalid='ignore')
     roc[source_values[:-period] == 0] = 0

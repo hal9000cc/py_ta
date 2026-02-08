@@ -2,40 +2,49 @@
 import pytest
 import py_ta as ta
 
-from conftest import test_ohlcv_data
+from conftest import TEST_DATA_FILENAME, arrays_equal_with_nan
+from stock_indicators_helpers import get_si_ref
 
 
-def test_keltner_not_implemented(test_ohlcv_data):
-    """Test for Keltner Channel is not implemented yet.
-    
-    Keltner Channel is not available in TA-Lib for comparison,
-    so this test is not implemented.
-    """
-    pytest.skip("Keltner Channel test is not implemented: TA-Lib does not have this indicator")
+@pytest.mark.parametrize('period, multiplier, period_atr', [
+    (2, 1, 2),
+    (5, 2, 5),
+    (10, 3, 7),
+])
+def test_keltner_vs_si(test_ohlcv_data, period, multiplier, period_atr):
+    """Test Keltner Channel calculation against stock-indicators reference."""
+    quotes = ta.Quotes(
+        test_ohlcv_data['open'],
+        test_ohlcv_data['high'],
+        test_ohlcv_data['low'],
+        test_ohlcv_data['close'],
+        test_ohlcv_data['volume'],
+        test_ohlcv_data['time'],
+    )
 
+    keltner_result = ta.keltner(
+        quotes,
+        period=period,
+        multiplier=multiplier,
+        period_atr=period_atr,
+        ma_type='ema',
+        ma_type_atr='mma'
+    )
 
-def test_keltner_basic(test_ohlcv_data):
-    """Basic test for Keltner Channel (placeholder).
-    
-    This test verifies that the indicator can be called without errors.
-    """
-    # Extract data
-    open_data = test_ohlcv_data['open']
-    high_data = test_ohlcv_data['high']
-    low_data = test_ohlcv_data['low']
-    close_data = test_ohlcv_data['close']
-    volume_data = test_ohlcv_data['volume']
-    
-    # Create Quotes
-    quotes = ta.Quotes(open_data, high_data, low_data, close_data, volume_data)
-    
-    # Calculate Keltner Channel
-    keltner_result = ta.keltner(quotes, period=10, multiplier=1, period_atr=10)
-    
-    # Basic check: result should have all required attributes
-    assert hasattr(keltner_result, 'mid_line'), "Result should have 'mid_line' attribute"
-    assert hasattr(keltner_result, 'up_line'), "Result should have 'up_line' attribute"
-    assert hasattr(keltner_result, 'down_line'), "Result should have 'down_line' attribute"
-    assert hasattr(keltner_result, 'width'), "Result should have 'width' attribute"
-    assert len(keltner_result.mid_line) == len(close_data), "mid_line should have same length as input data"
+    ref = get_si_ref(TEST_DATA_FILENAME, 'get_keltner', period, multiplier, period_atr)
 
+    assert arrays_equal_with_nan(
+        keltner_result.mid_line, ref.center_line
+    ), f"Keltner Mid Line (period={period}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        keltner_result.up_line[100:], ref.upper_band[100:]
+    ), f"Keltner Upper Line (period={period}, multiplier={multiplier}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        keltner_result.down_line[100:], ref.lower_band[100:]
+    ), f"Keltner Lower Line (period={period}, multiplier={multiplier}) does not match stock-indicators"
+
+    assert arrays_equal_with_nan(
+        keltner_result.width[100:], ref.width[100:]
+    ), f"Keltner Width (period={period}, multiplier={multiplier}) does not match stock-indicators"
