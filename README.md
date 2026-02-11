@@ -342,6 +342,51 @@ keltner = ta.keltner(quotes, period=20, multiplier=2, period_atr=10, ma_type='mm
 rsi = ta.rsi(quotes, period=14, ma_type='ema')
 ```
 
+## Metadata
+
+The library provides functions to get metadata about all available indicators.
+
+**`metadata()`** - Returns a dictionary with metadata for all indicators:
+
+```python
+import pyita as ta
+
+meta = ta.metadata()
+print(meta['bollinger_bands'])
+```
+
+Output:
+```python
+{
+    'name': 'bollinger_bands',
+    'signature': 'bollinger_bands(quotes, period=20, deviation=2, ma_type=\'sma\', value=\'close\')',
+    'parameters': ['quotes', 'period', 'deviation', 'ma_type', 'value'],
+    'output_series': ['mid_line', 'up_line', 'down_line', 'z_score'],
+    'description': 'Bollinger bands'
+}
+```
+
+**`list()`** - Returns a formatted string with all indicators in human-readable format:
+
+```python
+import pyita as ta
+
+print(ta.list())
+```
+
+Output:
+```
+adl(quotes, ma_period=None, ma_type='sma')
+  Accumulation/distribution line.
+  Output: adl, adl_smooth
+
+adx(quotes, period=14, smooth=14, ma_type='mma')
+  Average directional movement index.
+  Output: adx, p_di, m_di
+
+...
+```
+
 ## System Requirements
 
 - **Python**: 3.9+ (tested up to 3.14)
