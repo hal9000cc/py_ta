@@ -1,7 +1,7 @@
 """IndicatorResult class for indicator calculation results."""
 import numpy as np
 
-from .core import DataSeries
+from .data_series import DataSeries
 
 
 class IndicatorResult(DataSeries):

@@ -1,4 +1,3 @@
-"""Core data structures for pyita."""
 import abc
 from datetime import date, datetime
 

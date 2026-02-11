@@ -1,5 +1,5 @@
 """Quotes class for OHLCV data."""
-from .core import DataSeries
+from .data_series import DataSeries
 from .constants import PRICE_TYPE, VOLUME_TYPE, TIME_TYPE
 
 

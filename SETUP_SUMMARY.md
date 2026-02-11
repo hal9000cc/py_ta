@@ -27,7 +27,7 @@
 src/pyita/
 ├── __init__.py              # Lazy loading with __getattr__ and caching
 ├── constants.py             # Data types (PRICE_TYPE, TIME_TYPE, etc.)
-├── core.py                  # DataSeries class (dict with attribute access)
+├── data_series.py           # DataSeries class (dict with attribute access)
 ├── quotes.py                # Quotes class supporting 4 initialization methods
 └── indicators/
     ├── __init__.py          # Empty (for package)
