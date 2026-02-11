@@ -289,7 +289,6 @@ def test_quotes_from_int_lists_date(test_data_1d_100):
     assert_quotes_equal(quotes, expected)
 
 
-@pytest.mark.skipif(not HAS_PANDAS, reason="Requires pandas")
 def test_quotes_from_pandas_4_columns(test_data_100):
     """Test Quotes creation from pandas DataFrame with 4 columns (mixed case)."""
     df = pd.DataFrame({
@@ -311,7 +310,6 @@ def test_quotes_from_pandas_4_columns(test_data_100):
     assert_quotes_equal(quotes, expected)
 
 
-@pytest.mark.skipif(not HAS_PANDAS, reason="Requires pandas")
 def test_quotes_from_pandas_5_columns(test_data_100):
     """Test Quotes creation from pandas DataFrame with 5 columns (mixed case)."""
     df = pd.DataFrame({
@@ -335,7 +333,6 @@ def test_quotes_from_pandas_5_columns(test_data_100):
     assert_quotes_equal(quotes, expected)
 
 
-@pytest.mark.skipif(not HAS_PANDAS, reason="Requires pandas")
 def test_quotes_from_pandas_6_columns(test_data_100):
     """Test Quotes creation from pandas DataFrame with 6 columns (mixed case)."""
     df = pd.DataFrame({
@@ -373,7 +370,6 @@ def test_quotes_validation_different_lengths(test_data_100):
         ta.Quotes(open_data, high_data, low_data, close_data)
 
 
-@pytest.mark.skipif(not HAS_PANDAS, reason="Requires pandas")
 def test_quotes_validation_missing_columns(test_data_100):
     """Test Quotes validation with missing required columns in pandas DataFrame."""
     # Missing 'close' column
@@ -418,7 +414,6 @@ def test_quotes_from_ccxt_format(test_data_100):
     assert_quotes_equal(quotes, expected)
 
 
-@pytest.mark.skipif(True, reason="Requires ccxt library and internet connection")
 def test_quotes_from_ccxt_exchange():
     """Test Quotes creation from actual CCXT exchange data."""
     import ccxt

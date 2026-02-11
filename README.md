@@ -17,6 +17,15 @@
 - **Compatible** - supports Python 3.9+ (tested up to 3.14)
 - **Integrations** - works with NumPy arrays, pandas DataFrames, and CCXT
 
+## What's New in 1.1.0
+
+- Added `metadata()` function to get metadata for all indicators (signatures, parameters, output series with types, descriptions)
+- Added `list()` function to get formatted list of all indicators in human-readable format
+- Added slicing support for `DataSeries`, `Quotes`, and `IndicatorResult` (returns views)
+- Fixed incorrect handling of CCXT format data in `Quotes` constructor
+
+For full changelog, see [CHANGELOG.md](CHANGELOG.md).
+
 ## Installation
 
 From PyPI:

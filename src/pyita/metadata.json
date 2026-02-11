@@ -8,8 +8,14 @@
       "ma_type"
     ],
     "output_series": [
-      "adl",
-      "adl_smooth"
+      {
+        "name": "adl",
+        "type": "none"
+      },
+      {
+        "name": "adl_smooth",
+        "type": "none"
+      }
     ],
     "description": "Accumulation/distribution line."
   },
@@ -23,9 +29,18 @@
       "ma_type"
     ],
     "output_series": [
-      "adx",
-      "p_di",
-      "m_di"
+      {
+        "name": "adx",
+        "type": "none"
+      },
+      {
+        "name": "p_di",
+        "type": "none"
+      },
+      {
+        "name": "m_di",
+        "type": "none"
+      }
     ],
     "description": "Average directional movement index."
   },
@@ -37,9 +52,18 @@
       "period"
     ],
     "output_series": [
-      "up",
-      "down",
-      "oscillator"
+      {
+        "name": "up",
+        "type": "none"
+      },
+      {
+        "name": "down",
+        "type": "none"
+      },
+      {
+        "name": "oscillator",
+        "type": "none"
+      }
     ],
     "description": "Aroon oscillator."
   },
@@ -52,9 +76,18 @@
       "ma_type"
     ],
     "output_series": [
-      "tr",
-      "atr",
-      "atrp"
+      {
+        "name": "tr",
+        "type": "none"
+      },
+      {
+        "name": "atr",
+        "type": "none"
+      },
+      {
+        "name": "atrp",
+        "type": "none"
+      }
     ],
     "description": "Average True Range."
   },
@@ -70,7 +103,10 @@
       "normalized"
     ],
     "output_series": [
-      "awesome"
+      {
+        "name": "awesome",
+        "type": "none"
+      }
     ],
     "description": "Awesome oscillator."
   },
@@ -85,10 +121,22 @@
       "value"
     ],
     "output_series": [
-      "mid_line",
-      "up_line",
-      "down_line",
-      "z_score"
+      {
+        "name": "mid_line",
+        "type": "price"
+      },
+      {
+        "name": "up_line",
+        "type": "price"
+      },
+      {
+        "name": "down_line",
+        "type": "price"
+      },
+      {
+        "name": "z_score",
+        "type": "none"
+      }
     ],
     "description": "Bollinger bands."
   },
@@ -100,7 +148,10 @@
       "period"
     ],
     "output_series": [
-      "cci"
+      {
+        "name": "cci",
+        "type": "none"
+      }
     ],
     "description": "Commodity channel index."
   },
@@ -114,8 +165,14 @@
       "use_close"
     ],
     "output_series": [
-      "exit_short",
-      "exit_long"
+      {
+        "name": "exit_short",
+        "type": "price"
+      },
+      {
+        "name": "exit_long",
+        "type": "price"
+      }
     ],
     "description": "Chandelier Exit."
   },
@@ -128,7 +185,10 @@
       "value"
     ],
     "output_series": [
-      "ema"
+      {
+        "name": "ema",
+        "type": "as_source"
+      }
     ],
     "description": "Exponential moving average."
   },
@@ -144,11 +204,26 @@
       "offset_chikou"
     ],
     "output_series": [
-      "tenkan",
-      "kijun",
-      "senkou_a",
-      "senkou_b",
-      "chikou"
+      {
+        "name": "tenkan",
+        "type": "price"
+      },
+      {
+        "name": "kijun",
+        "type": "price"
+      },
+      {
+        "name": "senkou_a",
+        "type": "price"
+      },
+      {
+        "name": "senkou_b",
+        "type": "price"
+      },
+      {
+        "name": "chikou",
+        "type": "price"
+      }
     ],
     "description": "Ichimoku indicator."
   },
@@ -164,10 +239,22 @@
       "ma_type_atr"
     ],
     "output_series": [
-      "mid_line",
-      "up_line",
-      "down_line",
-      "width"
+      {
+        "name": "mid_line",
+        "type": "price"
+      },
+      {
+        "name": "up_line",
+        "type": "price"
+      },
+      {
+        "name": "down_line",
+        "type": "price"
+      },
+      {
+        "name": "width",
+        "type": "none"
+      }
     ],
     "description": "Keltner channel."
   },
@@ -181,7 +268,10 @@
       "ma_type"
     ],
     "output_series": [
-      "move_average"
+      {
+        "name": "move_average",
+        "type": "as_source"
+      }
     ],
     "description": "Moving average of different types: 'sma', 'ema', 'mma', 'ema0', 'mma0', 'emaw', 'mmaw'."
   },
@@ -198,9 +288,18 @@
       "value"
     ],
     "output_series": [
-      "macd",
-      "signal",
-      "hist"
+      {
+        "name": "macd",
+        "type": "none"
+      },
+      {
+        "name": "signal",
+        "type": "none"
+      },
+      {
+        "name": "hist",
+        "type": "none"
+      }
     ],
     "description": "Moving Average Convergence/Divergence."
   },
@@ -212,7 +311,10 @@
       "period"
     ],
     "output_series": [
-      "mfi"
+      {
+        "name": "mfi",
+        "type": "none"
+      }
     ],
     "description": "Money flow index."
   },
@@ -223,7 +325,10 @@
       "quotes"
     ],
     "output_series": [
-      "obv"
+      {
+        "name": "obv",
+        "type": "none"
+      }
     ],
     "description": "On Balance Volume."
   },
@@ -237,8 +342,14 @@
       "increment"
     ],
     "output_series": [
-      "sar",
-      "signal"
+      {
+        "name": "sar",
+        "type": "price"
+      },
+      {
+        "name": "signal",
+        "type": "none"
+      }
     ],
     "description": "Parabolic SAR."
   },
@@ -253,8 +364,14 @@
       "value"
     ],
     "output_series": [
-      "roc",
-      "smooth_roc"
+      {
+        "name": "roc",
+        "type": "none"
+      },
+      {
+        "name": "smooth_roc",
+        "type": "none"
+      }
     ],
     "description": "Rate of Change."
   },
@@ -268,7 +385,10 @@
       "value"
     ],
     "output_series": [
-      "rsi"
+      {
+        "name": "rsi",
+        "type": "none"
+      }
     ],
     "description": "Relative Strength Index."
   },
@@ -281,7 +401,10 @@
       "value"
     ],
     "output_series": [
-      "sma"
+      {
+        "name": "sma",
+        "type": "as_source"
+      }
     ],
     "description": "Simple moving average."
   },
@@ -296,9 +419,18 @@
       "ma_type"
     ],
     "output_series": [
-      "oscillator",
-      "value_k",
-      "value_d"
+      {
+        "name": "oscillator",
+        "type": "none"
+      },
+      {
+        "name": "value_k",
+        "type": "none"
+      },
+      {
+        "name": "value_d",
+        "type": "none"
+      }
     ],
     "description": "Stochastic oscillator."
   },
@@ -312,8 +444,14 @@
       "ma_type"
     ],
     "output_series": [
-      "supertrend",
-      "supertrend_mid"
+      {
+        "name": "supertrend",
+        "type": "price"
+      },
+      {
+        "name": "supertrend_mid",
+        "type": "price"
+      }
     ],
     "description": "Supertrend indicator."
   },
@@ -326,7 +464,10 @@
       "value"
     ],
     "output_series": [
-      "tema"
+      {
+        "name": "tema",
+        "type": "price"
+      }
     ],
     "description": "Triple Exponential Moving Average."
   },
@@ -339,7 +480,10 @@
       "value"
     ],
     "output_series": [
-      "trix"
+      {
+        "name": "trix",
+        "type": "none"
+      }
     ],
     "description": "Triple Exponential Average Oscillator."
   },
@@ -353,7 +497,10 @@
       "ma_type"
     ],
     "output_series": [
-      "osc"
+      {
+        "name": "osc",
+        "type": "none"
+      }
     ],
     "description": "Volume oscillator."
   },
@@ -364,7 +511,10 @@
       "quotes"
     ],
     "output_series": [
-      "vwap"
+      {
+        "name": "vwap",
+        "type": "price"
+      }
     ],
     "description": "Volume Weighted Average Price."
   },
@@ -377,7 +527,10 @@
       "value"
     ],
     "output_series": [
-      "vwma"
+      {
+        "name": "vwma",
+        "type": "price"
+      }
     ],
     "description": "Volume Weighted Moving Average."
   },
@@ -389,7 +542,10 @@
       "period"
     ],
     "output_series": [
-      "williams_r"
+      {
+        "name": "williams_r",
+        "type": "none"
+      }
     ],
     "description": "Williams %R oscillator."
   },
@@ -404,8 +560,14 @@
       "end_points"
     ],
     "output_series": [
-      "pivots",
-      "pivot_types"
+      {
+        "name": "pivots",
+        "type": "price"
+      },
+      {
+        "name": "pivot_types",
+        "type": "none"
+      }
     ],
     "description": "Zig-zag indicator (pivots)."
   }

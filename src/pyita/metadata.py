@@ -81,8 +81,6 @@ def _parse_docstring(indicator_name, docstring):
         )
     
     output_series_text = output_series_line.replace('Output series:', '').strip()
-    if output_series_text.endswith(')'):
-        output_series_text = output_series_text[:-1]
     
     output_series = []
     for series_item in output_series_text.split(','):
