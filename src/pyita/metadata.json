@@ -1,0 +1,412 @@
+{
+  "adl": {
+    "name": "adl",
+    "signature": "adl(quotes, ma_period=None, ma_type='sma')",
+    "parameters": [
+      "quotes",
+      "ma_period",
+      "ma_type"
+    ],
+    "output_series": [
+      "adl",
+      "adl_smooth"
+    ],
+    "description": "Accumulation/distribution line."
+  },
+  "adx": {
+    "name": "adx",
+    "signature": "adx(quotes, period=14, smooth=14, ma_type='mma')",
+    "parameters": [
+      "quotes",
+      "period",
+      "smooth",
+      "ma_type"
+    ],
+    "output_series": [
+      "adx",
+      "p_di",
+      "m_di"
+    ],
+    "description": "Average directional movement index."
+  },
+  "aroon": {
+    "name": "aroon",
+    "signature": "aroon(quotes, period=14)",
+    "parameters": [
+      "quotes",
+      "period"
+    ],
+    "output_series": [
+      "up",
+      "down",
+      "oscillator"
+    ],
+    "description": "Aroon oscillator."
+  },
+  "atr": {
+    "name": "atr",
+    "signature": "atr(quotes, smooth=14, ma_type='mma')",
+    "parameters": [
+      "quotes",
+      "smooth",
+      "ma_type"
+    ],
+    "output_series": [
+      "tr",
+      "atr",
+      "atrp"
+    ],
+    "description": "Average True Range."
+  },
+  "awesome": {
+    "name": "awesome",
+    "signature": "awesome(quotes, period_fast=5, period_slow=34, ma_type_fast='sma', ma_type_slow='sma', normalized=False)",
+    "parameters": [
+      "quotes",
+      "period_fast",
+      "period_slow",
+      "ma_type_fast",
+      "ma_type_slow",
+      "normalized"
+    ],
+    "output_series": [
+      "awesome"
+    ],
+    "description": "Awesome oscillator."
+  },
+  "bollinger_bands": {
+    "name": "bollinger_bands",
+    "signature": "bollinger_bands(quotes, period=20, deviation=2, ma_type='sma', value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "deviation",
+      "ma_type",
+      "value"
+    ],
+    "output_series": [
+      "mid_line",
+      "up_line",
+      "down_line",
+      "z_score"
+    ],
+    "description": "Bollinger bands."
+  },
+  "cci": {
+    "name": "cci",
+    "signature": "cci(quotes, period=20)",
+    "parameters": [
+      "quotes",
+      "period"
+    ],
+    "output_series": [
+      "cci"
+    ],
+    "description": "Commodity channel index."
+  },
+  "chandelier": {
+    "name": "chandelier",
+    "signature": "chandelier(quotes, period=22, multiplier=3, use_close=False)",
+    "parameters": [
+      "quotes",
+      "period",
+      "multiplier",
+      "use_close"
+    ],
+    "output_series": [
+      "exit_short",
+      "exit_long"
+    ],
+    "description": "Chandelier Exit."
+  },
+  "ema": {
+    "name": "ema",
+    "signature": "ema(quotes, period, value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "value"
+    ],
+    "output_series": [
+      "ema"
+    ],
+    "description": "Exponential moving average."
+  },
+  "ichimoku": {
+    "name": "ichimoku",
+    "signature": "ichimoku(quotes, period_short=9, period_mid=26, period_long=52, offset_senkou=26, offset_chikou=26)",
+    "parameters": [
+      "quotes",
+      "period_short",
+      "period_mid",
+      "period_long",
+      "offset_senkou",
+      "offset_chikou"
+    ],
+    "output_series": [
+      "tenkan",
+      "kijun",
+      "senkou_a",
+      "senkou_b",
+      "chikou"
+    ],
+    "description": "Ichimoku indicator."
+  },
+  "keltner": {
+    "name": "keltner",
+    "signature": "keltner(quotes, period=10, multiplier=1, period_atr=10, ma_type='ema', ma_type_atr='mma')",
+    "parameters": [
+      "quotes",
+      "period",
+      "multiplier",
+      "period_atr",
+      "ma_type",
+      "ma_type_atr"
+    ],
+    "output_series": [
+      "mid_line",
+      "up_line",
+      "down_line",
+      "width"
+    ],
+    "description": "Keltner channel."
+  },
+  "ma": {
+    "name": "ma",
+    "signature": "ma(quotes, period, value='close', ma_type='sma')",
+    "parameters": [
+      "quotes",
+      "period",
+      "value",
+      "ma_type"
+    ],
+    "output_series": [
+      "move_average"
+    ],
+    "description": "Moving average of different types: 'sma', 'ema', 'mma', 'ema0', 'mma0', 'emaw', 'mmaw'."
+  },
+  "macd": {
+    "name": "macd",
+    "signature": "macd(quotes, period_short, period_long, period_signal, ma_type='ema', ma_type_signal='sma', value='close')",
+    "parameters": [
+      "quotes",
+      "period_short",
+      "period_long",
+      "period_signal",
+      "ma_type",
+      "ma_type_signal",
+      "value"
+    ],
+    "output_series": [
+      "macd",
+      "signal",
+      "hist"
+    ],
+    "description": "Moving Average Convergence/Divergence."
+  },
+  "mfi": {
+    "name": "mfi",
+    "signature": "mfi(quotes, period=14)",
+    "parameters": [
+      "quotes",
+      "period"
+    ],
+    "output_series": [
+      "mfi"
+    ],
+    "description": "Money flow index."
+  },
+  "obv": {
+    "name": "obv",
+    "signature": "obv(quotes)",
+    "parameters": [
+      "quotes"
+    ],
+    "output_series": [
+      "obv"
+    ],
+    "description": "On Balance Volume."
+  },
+  "parabolic_sar": {
+    "name": "parabolic_sar",
+    "signature": "parabolic_sar(quotes, start=0.02, maximum=0.2, increment=0.02)",
+    "parameters": [
+      "quotes",
+      "start",
+      "maximum",
+      "increment"
+    ],
+    "output_series": [
+      "sar",
+      "signal"
+    ],
+    "description": "Parabolic SAR."
+  },
+  "roc": {
+    "name": "roc",
+    "signature": "roc(quotes, period=14, ma_period=14, ma_type='sma', value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "ma_period",
+      "ma_type",
+      "value"
+    ],
+    "output_series": [
+      "roc",
+      "smooth_roc"
+    ],
+    "description": "Rate of Change."
+  },
+  "rsi": {
+    "name": "rsi",
+    "signature": "rsi(quotes, period, ma_type='mma', value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "ma_type",
+      "value"
+    ],
+    "output_series": [
+      "rsi"
+    ],
+    "description": "Relative Strength Index."
+  },
+  "sma": {
+    "name": "sma",
+    "signature": "sma(quotes, period, value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "value"
+    ],
+    "output_series": [
+      "sma"
+    ],
+    "description": "Simple moving average."
+  },
+  "stochastic": {
+    "name": "stochastic",
+    "signature": "stochastic(quotes, period=5, period_d=3, smooth=3, ma_type='sma')",
+    "parameters": [
+      "quotes",
+      "period",
+      "period_d",
+      "smooth",
+      "ma_type"
+    ],
+    "output_series": [
+      "oscillator",
+      "value_k",
+      "value_d"
+    ],
+    "description": "Stochastic oscillator."
+  },
+  "supertrend": {
+    "name": "supertrend",
+    "signature": "supertrend(quotes, period=10, multipler=3, ma_type='mma')",
+    "parameters": [
+      "quotes",
+      "period",
+      "multipler",
+      "ma_type"
+    ],
+    "output_series": [
+      "supertrend",
+      "supertrend_mid"
+    ],
+    "description": "Supertrend indicator."
+  },
+  "tema": {
+    "name": "tema",
+    "signature": "tema(quotes, period, value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "value"
+    ],
+    "output_series": [
+      "tema"
+    ],
+    "description": "Triple Exponential Moving Average."
+  },
+  "trix": {
+    "name": "trix",
+    "signature": "trix(quotes, period, value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "value"
+    ],
+    "output_series": [
+      "trix"
+    ],
+    "description": "Triple Exponential Average Oscillator."
+  },
+  "volume_osc": {
+    "name": "volume_osc",
+    "signature": "volume_osc(quotes, period_short=5, period_long=10, ma_type='ema')",
+    "parameters": [
+      "quotes",
+      "period_short",
+      "period_long",
+      "ma_type"
+    ],
+    "output_series": [
+      "osc"
+    ],
+    "description": "Volume oscillator."
+  },
+  "vwap": {
+    "name": "vwap",
+    "signature": "vwap(quotes)",
+    "parameters": [
+      "quotes"
+    ],
+    "output_series": [
+      "vwap"
+    ],
+    "description": "Volume Weighted Average Price."
+  },
+  "vwma": {
+    "name": "vwma",
+    "signature": "vwma(quotes, period, value='close')",
+    "parameters": [
+      "quotes",
+      "period",
+      "value"
+    ],
+    "output_series": [
+      "vwma"
+    ],
+    "description": "Volume Weighted Moving Average."
+  },
+  "williams_r": {
+    "name": "williams_r",
+    "signature": "williams_r(quotes, period=14)",
+    "parameters": [
+      "quotes",
+      "period"
+    ],
+    "output_series": [
+      "williams_r"
+    ],
+    "description": "Williams %R oscillator."
+  },
+  "zigzag": {
+    "name": "zigzag",
+    "signature": "zigzag(quotes, delta=0.02, depth=1, type='high_low', end_points=False)",
+    "parameters": [
+      "quotes",
+      "delta",
+      "depth",
+      "type",
+      "end_points"
+    ],
+    "output_series": [
+      "pivots",
+      "pivot_types"
+    ],
+    "description": "Zig-zag indicator (pivots)."
+  }
+}
