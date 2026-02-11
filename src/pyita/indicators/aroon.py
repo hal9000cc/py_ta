@@ -1,5 +1,8 @@
 """aroon(quotes, period=14)
-Aroon oscillator."""
+
+Aroon oscillator.
+
+Output series: up, down, oscillator"""
 import numpy as np
 import numba as nb
 

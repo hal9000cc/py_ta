@@ -1,5 +1,8 @@
 """volume_osc(quotes, period_short=5, period_long=10, ma_type='ema')
-Volume oscillator."""
+
+Volume oscillator.
+
+Output series: osc"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

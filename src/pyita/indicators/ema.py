@@ -1,5 +1,8 @@
 """ema(quotes, period, value='close')
-Exponential moving average."""
+
+Exponential moving average.
+
+Output series: ema"""
 from ..indicator_result import IndicatorResult
 from ..move_average import ma_calculate, MA_Type
 from ..exceptions import PyTAExceptionBadParameterValue

@@ -1,5 +1,8 @@
 """roc(quotes, period=14, ma_period=14, ma_type='sma', value='close')
-Rate of Change."""
+
+Rate of Change.
+
+Output series: roc, smooth_roc"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

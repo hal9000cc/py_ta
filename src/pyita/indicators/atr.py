@@ -1,5 +1,8 @@
 """atr(quotes, smooth=14, ma_type='mma')
-Average True Range."""
+
+Average True Range.
+
+Output series: tr, atr, atrp"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

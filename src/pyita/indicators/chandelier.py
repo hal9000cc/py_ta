@@ -1,5 +1,8 @@
 """chandelier(quotes, period=22, multiplier=3, use_close=False)
-Chandelier Exit."""
+
+Chandelier Exit.
+
+Output series: exit_short, exit_long"""
 import numpy as np
 import numba as nb
 

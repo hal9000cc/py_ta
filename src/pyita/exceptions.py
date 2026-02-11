@@ -105,3 +105,44 @@ class PyTAExceptionDataSeriesNonFound(PyTAException):
         self.series_name = series_name
         super().__init__(f'Data series "{self.series_name}" not found.')
 
+
+class PyTAExceptionMetadataParseError(PyTAException):
+    """Raised when metadata parsing fails.
+    
+    This exception is raised when parsing indicator metadata from docstring fails.
+    
+    Attributes:
+        indicator_name: Name of the indicator that failed to parse
+        reason: Description of why parsing failed
+    """
+    
+    def __init__(self, indicator_name, reason):
+        """Initialize the exception.
+        
+        Args:
+            indicator_name: Name of the indicator that failed to parse
+            reason: Description of why parsing failed
+        """
+        self.indicator_name = indicator_name
+        self.reason = reason
+        super().__init__(f'Failed to parse metadata for indicator "{indicator_name}": {reason}')
+
+
+class PyTAExceptionMetadataError(PyTAException):
+    """Raised when metadata file operations fail.
+    
+    This exception is raised when reading or accessing metadata file fails.
+    
+    Attributes:
+        reason: Description of why the operation failed
+    """
+    
+    def __init__(self, reason):
+        """Initialize the exception.
+        
+        Args:
+            reason: Description of why the operation failed
+        """
+        self.reason = reason
+        super().__init__(f'Metadata error: {reason}')
+

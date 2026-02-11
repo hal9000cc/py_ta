@@ -1,5 +1,8 @@
 """cci(quotes, period=20)
-Commodity channel index."""
+
+Commodity channel index.
+
+Output series: cci"""
 import numpy as np
 import numba as nb
 

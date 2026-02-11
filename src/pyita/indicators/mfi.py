@@ -1,5 +1,8 @@
 """mfi(quotes, period=14)
-Money flow index."""
+
+Money flow index.
+
+Output series: mfi"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

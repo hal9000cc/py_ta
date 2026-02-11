@@ -1,5 +1,8 @@
 """parabolic_sar(quotes, start=0.02, maximum=0.2, increment=0.02)
-Parabolic SAR."""
+
+Parabolic SAR.
+
+Output series: sar, signal"""
 import numpy as np
 import numba as nb
 

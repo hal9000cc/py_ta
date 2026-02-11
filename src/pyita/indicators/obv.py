@@ -1,5 +1,8 @@
 """obv(quotes)
-On Balance Volume."""
+
+On Balance Volume.
+
+Output series: obv"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

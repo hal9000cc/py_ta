@@ -1,5 +1,8 @@
 """trix(quotes, period, value='close')
-Triple Exponential Average Oscillator."""
+
+Triple Exponential Average Oscillator.
+
+Output series: trix"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

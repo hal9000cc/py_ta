@@ -1,5 +1,9 @@
 """bollinger_bands(quotes, period=20, deviation=2, ma_type='sma', value='close')
-Bollinger bands."""
+
+Bollinger bands.
+
+Output series: mid_line, up_line, down_line, z_score"""
+
 import numpy as np
 import numba as nb
 

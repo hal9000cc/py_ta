@@ -1,5 +1,8 @@
 """vwma(quotes, period, value='close')
-Volume Weighted Moving Average."""
+
+Volume Weighted Moving Average.
+
+Output series: vwma"""
 import numpy as np
 import numba as nb
 

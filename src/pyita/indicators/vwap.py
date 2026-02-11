@@ -1,5 +1,8 @@
 """vwap(quotes)
-Volume Weighted Average Price."""
+
+Volume Weighted Average Price.
+
+Output series: vwap"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

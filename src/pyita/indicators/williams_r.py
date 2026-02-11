@@ -1,5 +1,8 @@
 """williams_r(quotes, period=14)
-Williams %R oscillator."""
+
+Williams %R oscillator.
+
+Output series: williams_r"""
 import numpy as np
 import numba as nb
 

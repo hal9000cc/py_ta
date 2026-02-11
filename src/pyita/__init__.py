@@ -21,6 +21,7 @@ from .exceptions import (
     PyTAExceptionBadSeriesData,
     PyTAExceptionDataSeriesNonFound,
 )
+from .metadata import metadata, list
 
 
 def _get_version():
@@ -55,6 +56,8 @@ __all__ = [
     'PyTAExceptionBadParameterValue',
     'PyTAExceptionBadSeriesData',
     'PyTAExceptionDataSeriesNonFound',
+    'metadata',
+    'list',
 ]
 
 # Cache for lazy-loaded indicators

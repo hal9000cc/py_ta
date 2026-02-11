@@ -1,5 +1,8 @@
 """stochastic(quotes, period=5, period_d=3, smooth=3, ma_type='sma')
-Stochastic oscillator."""
+
+Stochastic oscillator.
+
+Output series: oscillator, value_k, value_d"""
 import numpy as np
 import numba as nb
 

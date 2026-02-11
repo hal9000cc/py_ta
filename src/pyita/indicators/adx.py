@@ -1,5 +1,8 @@
 """adx(quotes, period=14, smooth=14, ma_type='mma')
-Average directional movement index."""
+
+Average directional movement index.
+
+Output series: adx, p_di, m_di"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

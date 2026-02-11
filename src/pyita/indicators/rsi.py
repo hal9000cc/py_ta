@@ -1,5 +1,8 @@
 """rsi(quotes, period, ma_type='mma', value='close')
-Relative Strength Index."""
+
+Relative Strength Index.
+
+Output series: rsi"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

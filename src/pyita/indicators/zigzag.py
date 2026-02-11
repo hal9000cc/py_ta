@@ -1,5 +1,8 @@
 """zigzag(quotes, delta=0.02, depth=1, type='high_low', end_points=False)
-Zig-zag indicator (pivots)."""
+
+Zig-zag indicator (pivots).
+
+Output series: pivots, pivot_types"""
 import numpy as np
 import numba as nb
 

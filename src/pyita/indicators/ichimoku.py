@@ -1,5 +1,8 @@
 """ichimoku(quotes, period_short=9, period_mid=26, period_long=52, offset_senkou=26, offset_chikou=26)
-Ichimoku indicator."""
+
+Ichimoku indicator.
+
+Output series: tenkan, kijun, senkou_a, senkou_b, chikou"""
 import numpy as np
 import numba as nb
 

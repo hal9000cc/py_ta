@@ -1,5 +1,8 @@
 """supertrend(quotes, period=10, multipler=3, ma_type='mma')
-Supertrend indicator."""
+
+Supertrend indicator.
+
+Output series: supertrend, supertrend_mid"""
 import numpy as np
 import numba as nb
 

@@ -1,5 +1,8 @@
 """tema(quotes, period, value='close')
-Triple Exponential Moving Average."""
+
+Triple Exponential Moving Average.
+
+Output series: tema"""
 from ..indicator_result import IndicatorResult
 from ..move_average import ma_calculate, MA_Type
 from ..exceptions import PyTAExceptionBadParameterValue

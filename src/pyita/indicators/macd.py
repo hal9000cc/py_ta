@@ -1,5 +1,8 @@
 """macd(quotes, period_short, period_long, period_signal, ma_type='ema', ma_type_signal='sma', value='close')
-Moving Average Convergence/Divergence."""
+
+Moving Average Convergence/Divergence.
+
+Output series: macd, signal, hist"""
 from ..indicator_result import IndicatorResult
 from ..move_average import ma_calculate, MA_Type
 from ..exceptions import PyTAExceptionBadParameterValue, PyTAExceptionTooLittleData

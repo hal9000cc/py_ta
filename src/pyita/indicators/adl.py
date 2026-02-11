@@ -1,5 +1,8 @@
 """adl(quotes, ma_period=None, ma_type='sma')
-Accumulation/distribution line."""
+
+Accumulation/distribution line.
+
+Output series: adl, adl_smooth"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

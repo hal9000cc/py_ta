@@ -1,5 +1,8 @@
 """keltner(quotes, period=10, multiplier=1, period_atr=10, ma_type='ema', ma_type_atr='mma')
-Keltner channel."""
+
+Keltner channel.
+
+Output series: mid_line, up_line, down_line, width"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult

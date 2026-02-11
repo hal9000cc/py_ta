@@ -1,5 +1,8 @@
 """awesome(quotes, period_fast=5, period_slow=34, ma_type_fast='sma', ma_type_slow='sma', normalized=False)
-Awesome oscillator."""
+
+Awesome oscillator.
+
+Output series: awesome"""
 import numpy as np
 
 from ..indicator_result import IndicatorResult
