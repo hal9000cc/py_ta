@@ -14,6 +14,7 @@ import re
 from pathlib import Path
 
 from .quotes import Quotes
+from .indicator_result import IndicatorResult
 from .exceptions import (
     PyTAException,
     PyTAExceptionIndicatorNotFound,
@@ -51,6 +52,7 @@ def _get_version():
 __version__ = _get_version()
 __all__ = [
     'Quotes',
+    'IndicatorResult',
     'PyTAException',
     'PyTAExceptionIndicatorNotFound',
     'PyTAExceptionBadParameterValue',
