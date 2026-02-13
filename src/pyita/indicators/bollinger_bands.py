@@ -1,4 +1,4 @@
-"""bollinger_bands(quotes, period=20, deviation=2, ma_type='sma', value='close')
+"""bollinger_bands(quotes, period=20, deviation=2, deviation_up=None, deviation_down=None, ma_type='sma', value='close')
 
 Bollinger bands.
 
@@ -33,7 +33,7 @@ def calc_std_deviations(values, period):
     return result
 
 
-def get_indicator_out(quotes, period=20, deviation=2, ma_type='sma', value='close'):
+def get_indicator_out(quotes, period=20, deviation=2, deviation_up=None, deviation_down=None, ma_type='sma', value='close'):
     """Calculate Bollinger Bands indicator.
     
     Bollinger Bands consist of a middle line (moving average) and two bands
@@ -42,7 +42,9 @@ def get_indicator_out(quotes, period=20, deviation=2, ma_type='sma', value='clos
     Args:
         quotes: Quotes object containing OHLCV data
         period: Period for moving average calculation (default: 20)
-        deviation: Number of standard deviations for bands (default: 2)
+        deviation: Number of standard deviations for bands (default: 2, used when deviation_up/deviation_down are None)
+        deviation_up: Number of standard deviations for upper band (default: None, uses deviation if not set)
+        deviation_down: Number of standard deviations for lower band (default: None, uses deviation if not set)
         ma_type: Type of moving average - 'sma', 'ema', 'mma', 'ema0', 'mma0' (default: 'sma')
         value: Price field to use - 'open', 'high', 'low', or 'close' (default: 'close')
         
@@ -63,43 +65,45 @@ def get_indicator_out(quotes, period=20, deviation=2, ma_type='sma', value='clos
         >>> print(bb.mid_line)
         >>> print(bb.up_line)
         >>> print(bb.down_line)
+        >>> bb = bollinger_bands(quotes, period=20, deviation_up=2.5, deviation_down=1.5)
+        >>> print(bb.up_line)
+        >>> print(bb.down_line)
     """
-    # Validate period
     if period <= 0:
         raise PyTAExceptionBadParameterValue(f'period must be greater than 0, got {period}')
     
-    # Validate deviation
-    if deviation <= 0:
-        raise PyTAExceptionBadParameterValue(f'deviation must be greater than 0, got {deviation}')
+    if deviation_up is None and deviation_down is None:
+        if deviation <= 0:
+            raise PyTAExceptionBadParameterValue(f'deviation must be greater than 0, got {deviation}')
     
-    # Validate value
+    if deviation_up is not None:
+        if deviation_up <= 0:
+            raise PyTAExceptionBadParameterValue(f'deviation_up must be greater than 0, got {deviation_up}')
+    
+    if deviation_down is not None:
+        if deviation_down <= 0:
+            raise PyTAExceptionBadParameterValue(f'deviation_down must be greater than 0, got {deviation_down}')
+    
     valid_values = ['open', 'high', 'low', 'close']
     if value not in valid_values:
         raise PyTAExceptionBadParameterValue(f'value must be one of {valid_values}, got {value}')
     
-    # Get source values from quotes
     source_values = quotes[value]
     
-    # Convert ma_type string to MA_Type enum (will raise ValueError if invalid)
     try:
         ma_type_enum = MA_Type.cast(ma_type)
     except ValueError as e:
         raise PyTAExceptionBadParameterValue(str(e))
     
-    # Calculate middle line (moving average)
     mid_line = ma_calculate(source_values, period, ma_type_enum)
-    
-    # Calculate standard deviations
     std_deviations = calc_std_deviations(source_values, period)
     
-    # Calculate deviations (standard deviations * deviation multiplier)
-    deviations = std_deviations * deviation
+    up_deviation = deviation_up if deviation_up is not None else deviation
+    down_deviation = deviation_down if deviation_down is not None else deviation
     
-    # Calculate bands
-    up_line = mid_line + deviations
-    down_line = mid_line - deviations
+    up_line = mid_line + (std_deviations * up_deviation)
+    down_line = mid_line - (std_deviations * down_deviation)
     
-    # Calculate z-score with division by zero handling
     np.seterr(divide='ignore', invalid='ignore')
     z_score = (source_values - mid_line) / std_deviations
     z_score[std_deviations == 0] = 0

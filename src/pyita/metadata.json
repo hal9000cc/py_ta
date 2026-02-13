@@ -112,11 +112,13 @@
   },
   "bollinger_bands": {
     "name": "bollinger_bands",
-    "signature": "bollinger_bands(quotes, period=20, deviation=2, ma_type='sma', value='close')",
+    "signature": "bollinger_bands(quotes, period=20, deviation=2, deviation_up=None, deviation_down=None, ma_type='sma', value='close')",
     "parameters": [
       "quotes",
       "period",
       "deviation",
+      "deviation_up",
+      "deviation_down",
       "ma_type",
       "value"
     ],
